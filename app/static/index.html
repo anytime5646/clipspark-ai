@@ -1,51 +1,489 @@
-<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ClipSpark AI — Turn long videos into Shorts</title>
-<meta name="description" content="Create vertical short videos from your own or licensed videos with AI highlights and captions.">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClipSpark AI - Video to Shorts</title>
+
 <style>
-:root{color-scheme:dark;--bg:#090811;--panel:#141122;--line:#302747;--muted:#a9a0bd;--purple:#a78bfa;--pink:#e879f9}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -10%,#35205e 0,transparent 48%),var(--bg);color:#f8f5ff;font:16px Inter,system-ui,Arial,sans-serif;min-height:100vh}
-.wrap{max-width:1040px;margin:auto;padding:26px 22px 70px}.nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:70px}.brand{font-weight:900;font-size:22px;letter-spacing:-.8px}.brand span{color:var(--purple)}.pill{border:1px solid var(--line);border-radius:99px;padding:8px 13px;color:#c9bdf0;font-size:12px}
-.hero{text-align:center;max-width:760px;margin:0 auto 40px}.eyebrow{color:#c4aaff;text-transform:uppercase;letter-spacing:2px;font-size:12px;font-weight:800}.hero h1{font-size:clamp(42px,8vw,76px);line-height:1.02;letter-spacing:-3px;margin:16px 0}.hero h1 em{font-style:normal;background:linear-gradient(90deg,#c4b5fd,#e879f9);color:transparent;background-clip:text}.hero p{color:var(--muted);line-height:1.7;font-size:17px}
-.panel{background:linear-gradient(145deg,rgba(28,22,45,.97),rgba(17,14,29,.98));border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 22px 80px #0007;max-width:780px;margin:auto}.drop{border:1px dashed #705a9b;border-radius:17px;padding:30px 18px;text-align:center;background:#0e0b18;cursor:pointer}.drop strong{display:block;margin:10px 0 5px}.drop small{color:var(--muted)}input[type=file]{display:none}.icon{font-size:30px}.filename{color:#c4b5fd;margin-top:9px;font-size:13px}
-.controls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;margin:18px 0}label{font-size:12px;color:#bdb2d0;display:block;margin:0 0 8px}select{width:100%;background:#0d0a17;color:white;border:1px solid var(--line);padding:13px;border-radius:11px;font-size:14px}
-.btn{width:100%;border:0;border-radius:13px;padding:16px;font-weight:850;font-size:15px;color:#160d27;background:linear-gradient(90deg,#c4b5fd,#e879f9);cursor:pointer}.btn:disabled{opacity:.55;cursor:wait}.fine{font-size:11px;color:#8f86a1;line-height:1.6;margin:14px 2px 0}.status{display:none;margin-top:22px;padding:17px;background:#0c0a15;border:1px solid var(--line);border-radius:14px}.status.show{display:block}.bar{height:8px;background:#302747;border-radius:99px;overflow:hidden;margin:12px 0}.bar i{height:100%;display:block;width:0;background:linear-gradient(90deg,#a78bfa,#e879f9);transition:width .4s}.message{color:#d8cafa;font-size:14px}.clips{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:16px}.clip{border:1px solid var(--line);border-radius:14px;padding:13px;background:#171326}.clip a{color:#d8cafa;text-decoration:none;font-weight:700}.clip video{width:100%;max-height:290px;object-fit:contain;background:#050409;border-radius:9px;margin-bottom:9px}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:50px auto;max-width:900px}.feature{padding:18px;border:1px solid #282139;border-radius:16px;background:#100d1b}.feature b{display:block;margin:9px 0}.feature p{color:var(--muted);font-size:13px;line-height:1.5;margin:0}.footer{text-align:center;color:#716982;font-size:12px;margin-top:42px}
-@media(max-width:620px){.nav{margin-bottom:48px}.panel{padding:18px}.controls{grid-template-columns:1fr}.features{grid-template-columns:1fr}.hero h1{letter-spacing:-2px}}
-</style></head><body><main class="wrap">
-<div class="nav"><div class="brand">✦ Clip<span>Spark</span> AI</div><div class="pill">AI SHORTS STUDIO</div></div>
-<section class="hero"><div class="eyebrow">Long video in. Short-form content out.</div><h1>Make every moment<br><em>scroll-stopping.</em></h1><p>Upload a video you own or have permission to use. ClipSpark transcribes it, finds engaging moments and creates vertical Shorts with captions.</p></section>
-<section class="panel">
-<form id="form">
-<label>YOUR VIDEO</label><label class="drop" for="video"><span class="icon">⬆</span><strong>Choose a video to get started</strong><small>MP4, MOV, MKV or WEBM · max 500 MB</small><div class="filename" id="filename">No file selected</div></label>
-<input id="video" name="video" type="file" accept="video/mp4,video/quicktime,video/x-matroska,video/webm" required>
-<div class="controls"><div><label>SHORT LENGTH</label><select name="clip_seconds"><option value="30">30 seconds</option><option value="45" selected>45 seconds</option><option value="60">60 seconds</option></select></div><div><label>SPEECH LANGUAGE</label><select name="language"><option value="auto">Auto detect</option><option value="hi">Hindi</option><option value="en">English</option><option value="es">Spanish</option></select></div><div><label>NUMBER OF SHORTS</label><select name="max_clips"><option>1</option><option>2</option><option selected>3</option><option>5</option></select></div></div>
-<button class="btn" id="submit">✦ Generate my Shorts</button><p class="fine">Only upload content you own or are authorized to edit. Processing uses server resources; do not upload private or sensitive footage. Files are stored on the server until removed by the operator.</p>
-</form>
-<div class="status" id="status"><div class="message" id="message">Preparing…</div><div class="bar"><i id="progress"></i></div><div id="results"></div></div>
-</section>
-<section class="features"><div class="feature">✧<b>AI-powered highlights</b><p>Speech is transcribed and meaningful moments are selected, with optional Gemini ranking.</p></div><div class="feature">▣<b>Vertical by default</b><p>Landscape footage is center-cropped to a 9:16, 1080 × 1920 video.</p></div><div class="feature">CC<b>Captions included</b><p>Whisper speech recognition generates subtitles that are burned into the finished clip.</p></div></section>
-<div class="footer">ClipSpark AI · Built for videos you have permission to use</div>
-</main>
-<script>
-const form=document.getElementById('form'), file=document.getElementById('video'), submit=document.getElementById('submit'), statusBox=document.getElementById('status'), msg=document.getElementById('message'), bar=document.getElementById('progress'), results=document.getElementById('results');
-file.addEventListener('change',()=>document.getElementById('filename').textContent=file.files[0]?.name||'No file selected');
-form.addEventListener('submit',async e=>{
- e.preventDefault(); if(!file.files.length)return;
- submit.disabled=true;submit.textContent='Uploading…';statusBox.classList.add('show');results.innerHTML='';bar.style.width='2%';msg.textContent='Uploading your video…';
- try{
-  const fd=new FormData(form); const res=await fetch('/api/jobs',{method:'POST',body:fd}); const data=await res.json(); if(!res.ok)throw new Error(data.detail||'Upload failed');
-  submit.textContent='AI is working…'; poll(data.job_id);
- }catch(err){msg.textContent='Error: '+err.message;submit.disabled=false;submit.textContent='✦ Try again';}
-});
-async function poll(id){
- try{
-  const r=await fetch('/api/jobs/'+id);const j=await r.json();msg.textContent=j.message+(j.language?' · detected '+j.language:'');bar.style.width=(j.progress||0)+'%';
-  if(j.status==='completed'){
-   results.innerHTML='<div class="clips">'+j.clips.map(c=>`<div class="clip"><video controls playsinline src="${c.url}"></video><a href="/api/download/${c.url.split('/').pop()}">↓ Download ${c.name}</a><div class="fine">${c.seconds}s · starts at ${c.start}s</div></div>`).join('')+'</div>';
-   submit.disabled=false;submit.textContent='✦ Create more Shorts';return;
-  }
-  if(j.status==='failed'){throw new Error(j.error||'Processing failed');}
-  setTimeout(()=>poll(id),1800);
- }catch(err){msg.textContent='Error: '+err.message;submit.disabled=false;submit.textContent='✦ Try again';}
+:root {
+  color-scheme: dark;
+  --bg: #090811;
+  --panel: #171225;
+  --purple: #a855f7;
+  --text: #f5f0ff;
+  --muted: #aaa0bd;
 }
-</script></body></html>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+
+.wrap {
+  width: min(100% - 30px, 850px);
+  margin: auto;
+  padding: 25px 0 45px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0 30px;
+}
+
+.brand {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.brand span {
+  color: var(--purple);
+}
+
+.hero {
+  text-align: center;
+  margin: 35px auto;
+}
+
+.hero h1 {
+  font-size: clamp(34px, 7vw, 55px);
+  margin: 15px 0;
+}
+
+.hero h1 span {
+  color: #bd79ff;
+}
+
+.hero p {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.panel {
+  background: linear-gradient(145deg,#1c1630,#100d1b);
+  border: 1px solid #342747;
+  border-radius: 25px;
+  padding: 25px;
+}
+
+label {
+  display: block;
+  color: #c5b7d9;
+  margin: 20px 0 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.drop {
+  border: 2px dashed #75539b;
+  border-radius: 18px;
+  padding: 35px 15px;
+  text-align: center;
+  cursor: pointer;
+  background: #100c1c;
+}
+
+.drop .upload {
+  font-size: 42px;
+  margin-bottom: 12px;
+}
+
+.drop p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+input[type=file] {
+  display: none;
+}
+
+select {
+  width: 100%;
+  padding: 17px;
+  border-radius: 13px;
+  border: 1px solid #40304f;
+  background: #0d0a16;
+  color: white;
+  font-size: 16px;
+  outline: none;
+}
+
+.btn {
+  width: 100%;
+  margin-top: 25px;
+  padding: 19px;
+  border: 0;
+  border-radius: 14px;
+  background: linear-gradient(100deg,#9570d6,#b044b9);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+.note {
+  color: #a99eb8;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-top: 20px;
+}
+
+.status {
+  display: none;
+  margin-top: 25px;
+  padding: 22px;
+  border: 1px solid #40304f;
+  background: #100c1b;
+  border-radius: 16px;
+}
+
+.status h3 {
+  margin-top: 0;
+}
+
+.progress {
+  height: 10px;
+  background: #342444;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg,#a855f7,#e879f9);
+  transition: width .5s;
+}
+
+.result {
+  margin-top: 20px;
+}
+
+.clip {
+  padding: 17px;
+  margin-top: 12px;
+  border: 1px solid #40304f;
+  border-radius: 13px;
+  background: #171225;
+}
+
+.clip a {
+  display: inline-block;
+  margin-top: 12px;
+  color: #e4b5ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.features {
+  margin-top: 35px;
+  padding: 25px;
+  background: #151020;
+  border: 1px solid #342747;
+  border-radius: 20px;
+}
+
+.features p {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.footer {
+  text-align: center;
+  color: #81758f;
+  padding: 35px 0;
+}
+
+@media(max-width:500px) {
+  .panel { padding: 18px; }
+  .hero { margin: 25px auto; }
+}
+</style>
+</head>
+
+<body>
+
+<main class="wrap">
+
+<div class="nav">
+  <div class="brand">✦ ClipSpark <span>AI</span></div>
+  <div>AI VIDEO TOOLS</div>
+</div>
+
+<section class="hero">
+  <h1>Turn Long Videos Into <span>Viral Shorts</span></h1>
+  <p>Upload your video. Let AI find interesting moments and create short videos automatically.</p>
+</section>
+
+<section class="panel">
+
+<form id="form">
+
+<label>YOUR VIDEO</label>
+
+<label class="drop" for="video">
+  <div class="upload">↑</div>
+  <strong>Choose a video to get started</strong>
+  <p>MP4, MOV, MKV or WEBM · Max 500 MB</p>
+  <div id="filename">No video selected</div>
+</label>
+
+<input
+  id="video"
+  name="video"
+  type="file"
+  accept=".mp4,.mov,.mkv,.webm"
+  required
+>
+
+<label>SHORT LENGTH</label>
+<select name="clip_seconds">
+  <option value="30">30 seconds</option>
+  <option value="45">45 seconds</option>
+  <option value="60">60 seconds</option>
+</select>
+
+<label>SPEECH LANGUAGE</label>
+<select name="language">
+  <option value="auto">Auto Detect</option>
+  <option value="Hindi">Hindi</option>
+  <option value="English">English</option>
+  <option value="Hinglish">Hinglish</option>
+</select>
+
+<label>NUMBER OF SHORTS</label>
+<select name="max_clips">
+  <option value="1">1 Short</option>
+  <option value="2">2 Shorts</option>
+  <option value="3" selected>3 Shorts</option>
+  <option value="5">5 Shorts</option>
+</select>
+
+<button class="btn" id="submit" type="submit">
+  ✦ Generate AI Shorts
+</button>
+
+</form>
+
+<p class="note">
+Only upload videos you own or are authorized to edit.
+Processing uses server resources. Do not upload private or sensitive footage.
+</p>
+
+<div class="status" id="status">
+  <h3 id="statusTitle">Preparing video...</h3>
+  <p id="message">Please wait.</p>
+
+  <div class="progress">
+    <div class="bar" id="bar"></div>
+  </div>
+
+  <p id="percent">0%</p>
+
+  <div class="result" id="results"></div>
+</div>
+
+</section>
+
+<section class="features">
+  <h2>✦ AI-powered highlights</h2>
+  <p>Speech is transcribed and meaningful moments are selected to create engaging short videos.</p>
+
+  <h2>⚡ Fast processing</h2>
+  <p>Automatically process your uploaded videos and receive separate downloadable Shorts.</p>
+
+  <h2>🌎 Multiple languages</h2>
+  <p>Choose Hindi, English or automatic language detection.</p>
+</section>
+
+<div class="footer">
+  ClipSpark AI · Powered by Artificial Intelligence
+</div>
+
+</main>
+
+<script>
+const form = document.getElementById("form");
+const fileInput = document.getElementById("video");
+const submit = document.getElementById("submit");
+const statusBox = document.getElementById("status");
+const message = document.getElementById("message");
+const bar = document.getElementById("bar");
+const percent = document.getElementById("percent");
+const results = document.getElementById("results");
+
+let polling = false;
+
+fileInput.addEventListener("change", () => {
+  document.getElementById("filename").textContent =
+    fileInput.files[0]?.name || "No video selected";
+});
+
+function showError(error) {
+  polling = false;
+  submit.disabled = false;
+  submit.textContent = "✦ Generate AI Shorts";
+  document.getElementById("statusTitle").textContent = "Processing failed";
+  message.textContent = error;
+}
+
+function showClips(clips) {
+  results.innerHTML = "";
+
+  if (!Array.isArray(clips) || clips.length === 0) {
+    results.textContent = "No Shorts were generated.";
+    return;
+  }
+
+  const heading = document.createElement("h3");
+  heading.textContent = "Your Shorts are ready!";
+  results.appendChild(heading);
+
+  clips.forEach((clip, index) => {
+    const card = document.createElement("div");
+    card.className = "clip";
+
+    const title = document.createElement("strong");
+    title.textContent = clip.name || `Short ${index + 1}`;
+
+    const duration = document.createElement("p");
+    duration.textContent = `${clip.seconds || 0} seconds`;
+
+    const link = document.createElement("a");
+    link.href = clip.url;
+    link.textContent = "⬇ Download Short";
+    link.download = "";
+
+    card.append(title, duration, link);
+    results.appendChild(card);
+  });
+}
+
+async function checkJob(jobId) {
+  if (polling) return;
+  polling = true;
+
+  while (polling) {
+    try {
+      const response = await fetch(
+        "/api/jobs/" + encodeURIComponent(jobId),
+        {cache: "no-store"}
+      );
+
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error(
+            "Job not found. Server may have restarted. Please upload again."
+          );
+        }
+        throw new Error("Server error: " + response.status);
+      }
+
+      const data = await response.json();
+
+      const progress = Math.min(
+        100,
+        Math.max(0, Number(data.progress) || 0)
+      );
+
+      bar.style.width = progress + "%";
+      percent.textContent = progress + "%";
+      message.textContent = data.message || "Processing video...";
+
+      if (data.status === "completed") {
+        bar.style.width = "100%";
+        percent.textContent = "100%";
+        document.getElementById("statusTitle").textContent =
+          "Generation completed!";
+        showClips(data.clips);
+        polling = false;
+        submit.disabled = false;
+        submit.textContent = "✦ Generate Another Video";
+        return;
+      }
+
+      if (data.status === "failed") {
+        throw new Error(data.error || data.message || "Processing failed.");
+      }
+
+      await new Promise(resolve => setTimeout(resolve, 2500));
+
+    } catch (error) {
+      showError(error.message);
+      return;
+    }
+  }
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (!fileInput.files.length) {
+    alert("Please select a video first.");
+    return;
+  }
+
+  if (fileInput.files[0].size > 500 * 1024 * 1024) {
+    alert("Video must be smaller than 500 MB.");
+    return;
+  }
+
+  polling = false;
+  submit.disabled = true;
+  submit.textContent = "Uploading...";
+  statusBox.style.display = "block";
+  document.getElementById("statusTitle").textContent =
+    "Uploading your video...";
+  message.textContent = "Please wait while your video uploads.";
+  bar.style.width = "0%";
+  percent.textContent = "0%";
+  results.innerHTML = "";
+
+  try {
+    const formData = new FormData(form);
+
+    const response = await fetch("/api/jobs", {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.detail || "Upload failed.");
+    }
+
+    if (!data.job_id) {
+      throw new Error("Server did not return a job ID.");
+    }
+
+    document.getElementById("statusTitle").textContent =
+      "AI is working...";
+
+    message.textContent = "Video received. Preparing Shorts.";
+
+    checkJob(data.job_id);
+
+  } catch (error) {
+    showError(error.message);
+  }
+});
+</script>
+
+</body>
+</html>
